@@ -1,286 +1,251 @@
-  // Smooth scrolling
-      document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
-        anchor.addEventListener("click", function (e) {
-          e.preventDefault();
-          const target = document.querySelector(this.getAttribute("href"));
-          if (target) {
-            target.scrollIntoView({ behavior: "smooth", block: "start" });
-          }
-        });
+// Smooth scrolling
+document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+  anchor.addEventListener("click", function (e) {
+    e.preventDefault();
+    const target = document.querySelector(this.getAttribute("href"));
+    if (target) {
+      target.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  });
+});
+
+// Skill bars animation
+const observerOptions = {
+  threshold: 0.5,
+};
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach((entry) => {
+    if (entry.isIntersecting) {
+      const skillBars = entry.target.querySelectorAll(".skill-bar");
+      skillBars.forEach((bar) => {
+        bar.style.width = bar.getAttribute("data-width");
       });
+    }
+  });
+}, observerOptions);
 
-      // Skill bars animation
-      const observerOptions = {
-        threshold: 0.5,
-      };
+const skillsSection = document.querySelector("#skills");
+if (skillsSection) observer.observe(skillsSection);
 
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            const skillBars = entry.target.querySelectorAll(".skill-bar");
-            skillBars.forEach((bar) => {
-              bar.style.width = bar.getAttribute("data-width");
-            });
-          }
-        });
-      }, observerOptions);
+// Animated border effect following cursor with smooth movement
+document.querySelectorAll(".card-hover").forEach((card) => {
+  card.classList.add("cursor-border");
 
-      const skillsSection = document.querySelector("#skills");
-      if (skillsSection) observer.observe(skillsSection);
+  let currentAngle = 0;
+  let targetAngle = 0;
+  let animationFrame = null;
 
-      //       // Animated border effect following cursor
-      //       document.querySelectorAll(".card-hover").forEach((card) => {
-      //         card.classList.add("cursor-border");
+  function animateAngle() {
+    const diff = targetAngle - currentAngle;
+    currentAngle += diff * 0.02;
 
-      //   // Ajouter la transition pour ralentir le mouvement
-      //   card.style.transition = "--angle 0.3s ease-out";
+    card.style.setProperty("--angle", `${currentAngle}deg`);
 
-      //         card.addEventListener("mousemove", (e) => {
-      //           const rect = card.getBoundingClientRect();
-      //           const x = e.clientX - rect.left;
-      //           const y = e.clientY - rect.top;
+    if (Math.abs(diff) > 0.5) {
+      animationFrame = requestAnimationFrame(animateAngle);
+    }
+  }
 
-      //           // Calcul de l'angle en degrés basé sur la position du curseur
-      //           const centerX = rect.width / 2;
-      //           const centerY = rect.height / 2;
+  card.addEventListener("mousemove", (e) => {
+    const rect = card.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
 
-      //           const angle =
-      //             Math.atan2(y - centerY, x - centerX) * (180 / Math.PI) - 90;
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
 
-      //           card.style.setProperty("--angle", `${angle}deg`);
-      //         });
+    targetAngle = Math.atan2(y - centerY, x - centerX) * (180 / Math.PI) + 270;
 
-      //         card.addEventListener("mouseleave", () => {
-      //           card.style.setProperty("--angle", "0deg");
-      //         });
-      //       });
+    const angleDiff = targetAngle - currentAngle;
+    if (angleDiff > 180) {
+      currentAngle += 360;
+    } else if (angleDiff < -180) {
+      currentAngle -= 360;
+    }
 
-      // Animated border effect following cursor with smooth movement
-      document.querySelectorAll(".card-hover").forEach((card) => {
-        card.classList.add("cursor-border");
+    if (!animationFrame) {
+      animateAngle();
+    }
+  });
 
-        let currentAngle = 0;
-        let targetAngle = 0;
-        let animationFrame = null;
+  card.addEventListener("mouseleave", () => {
+    targetAngle = 0;
+    if (animationFrame) {
+      cancelAnimationFrame(animationFrame);
+      animationFrame = null;
+    }
+    card.style.setProperty("--angle", "0deg");
+    currentAngle = 0;
+  });
+});
 
-        // Fonction pour animer en douceur
-        function animateAngle() {
-          // Interpolation pour un mouvement fluide
-          const diff = targetAngle - currentAngle;
-          currentAngle += diff * 0.02; // 0.1 = vitesse (plus petit = plus lent)
+// Message icon
+const messageIcon = document.getElementById("messageIcon");
+const closeIcon = document.getElementById("closeIcon");
+const formOverlay = document.getElementById("formOverlay");
 
-          card.style.setProperty("--angle", `${currentAngle}deg`);
+// Ouvrir le formulaire
+messageIcon.addEventListener("click", () => {
+  formOverlay.classList.add("active");
+  messageIcon.classList.add("hidden-icon");
+  closeIcon.classList.remove("hidden-icon");
+});
 
-          // Continuer l'animation si pas encore arrivé
-          if (Math.abs(diff) > 0.5) {
-            animationFrame = requestAnimationFrame(animateAngle);
-          }
-        }
+// Fermer le formulaire via l'icône
+closeIcon.addEventListener("click", () => {
+  formOverlay.classList.remove("active");
+  closeIcon.classList.add("hidden-icon");
+  messageIcon.classList.remove("hidden-icon");
+});
 
-        card.addEventListener("mousemove", (e) => {
-          const rect = card.getBoundingClientRect();
-          const x = e.clientX - rect.left;
-          const y = e.clientY - rect.top;
+// Fermer le formulaire en cliquant sur l'overlay
+formOverlay.addEventListener("click", (e) => {
+  if (e.target === formOverlay) {
+    formOverlay.classList.remove("active");
+    closeIcon.classList.add("hidden-icon");
+    messageIcon.classList.remove("hidden-icon");
+  }
+});
 
-          const centerX = rect.width / 2;
-          const centerY = rect.height / 2;
+// Effet machine à écrire
+const phrases = [
+  "full-stack.",
+  "d'applications web.",
+  "de solutions numériques.",
+];
 
-          targetAngle =
-            Math.atan2(y - centerY, x - centerX) * (180 / Math.PI) + 270;
+let phraseIndex = 0;
+let charIndex = 0;
+let isDeleting = false;
+let typingSpeed = 100;
 
-          // Gérer le passage de 360° à 0° pour éviter les sauts
-          const angleDiff = targetAngle - currentAngle;
-          if (angleDiff > 180) {
-            currentAngle += 360;
-          } else if (angleDiff < -180) {
-            currentAngle -= 360;
-          }
+const typewriterElement = document.getElementById("typewriter");
 
-          // Démarrer l'animation si pas déjà en cours
-          if (!animationFrame) {
-            animateAngle();
-          }
-        });
+function type() {
+  const currentPhrase = phrases[phraseIndex];
 
-        card.addEventListener("mouseleave", () => {
-          targetAngle = 0;
-          if (animationFrame) {
-            cancelAnimationFrame(animationFrame);
-            animationFrame = null;
-          }
-          card.style.setProperty("--angle", "0deg");
-          currentAngle = 0;
-        });
-      });
+  if (isDeleting) {
+    typewriterElement.textContent = currentPhrase.substring(0, charIndex - 1);
+    charIndex--;
+    typingSpeed = 50;
+  } else {
+    typewriterElement.textContent = currentPhrase.substring(0, charIndex + 1);
+    charIndex++;
+    typingSpeed = 100;
+  }
 
-      //Message icon
-      const messageIcon = document.getElementById("messageIcon");
-      const closeIcon = document.getElementById("closeIcon");
-      const formOverlay = document.getElementById("formOverlay");
-      const contactForm = document.getElementById("contactForm");
+  if (!isDeleting && charIndex === currentPhrase.length) {
+    typingSpeed = 2000;
+    isDeleting = true;
+  } else if (isDeleting && charIndex === 0) {
+    isDeleting = false;
+    phraseIndex = (phraseIndex + 1) % phrases.length;
+    typingSpeed = 500;
+  }
 
-      // Ouvrir le formulaire
-      messageIcon.addEventListener("click", () => {
-        formOverlay.classList.add("active");
-        messageIcon.classList.add("hidden-icon");
-        closeIcon.classList.remove("hidden-icon");
-      });
+  setTimeout(type, typingSpeed);
+}
 
-      // Fermer le formulaire via l'icône
-      closeIcon.addEventListener("click", () => {
-        formOverlay.classList.remove("active");
-        closeIcon.classList.add("hidden-icon");
-        messageIcon.classList.remove("hidden-icon");
-      });
+type();
 
-      // Fermer le formulaire en cliquant sur l'overlay
-      formOverlay.addEventListener("click", (e) => {
-        if (e.target === formOverlay) {
-          formOverlay.classList.remove("active");
-          closeIcon.classList.add("hidden-icon");
-          messageIcon.classList.remove("hidden-icon");
-        }
-      });
+// Mobile menu toggle
+const menuBtnMobile = document.getElementById("menuBtnMobile");
+const sidebar = document.getElementById("sidebar");
+const overlay = document.getElementById("overlay");
+const menuIconMobile = document.getElementById("menuIconMobile");
+const closeIconMobile = document.getElementById("closeIconMobile");
+const sidebarLinks = sidebar.querySelectorAll("a");
 
-      // Gestion de la soumission du formulaire
-   /*   contactForm.addEventListener("submit", (e) => {
-        e.preventDefault();
+function openSidebar() {
+  sidebar.classList.remove("translate-x-full");
+  overlay.classList.remove("hidden");
+  menuIconMobile.classList.add("hidden");
+  closeIconMobile.classList.remove("hidden");
+  document.body.style.overflow = "hidden";
+}
 
-       const formData = {
-          name: document.getElementById("name").value,
-          email: document.getElementById("email").value,
-          message: document.getElementById("message").value,
-        }; 
+function closeSidebar() {
+  sidebar.classList.add("translate-x-full");
+  overlay.classList.add("hidden");
+  menuIconMobile.classList.remove("hidden");
+  closeIconMobile.classList.add("hidden");
+  document.body.style.overflow = "";
+}
 
-        // Réinitialiser et fermer
-        contactForm.reset();
-        formOverlay.classList.remove("active");
-        closeIcon.classList.add("hidden-icon");
-        messageIcon.classList.remove("hidden-icon");
-      }); */
+menuBtnMobile.addEventListener("click", () => {
+  if (sidebar.classList.contains("translate-x-full")) {
+    openSidebar();
+  } else {
+    closeSidebar();
+  }
+});
 
-      //Effet machine à écrire
-      const phrases = [
-        "full-stack.",
-        "d'applications web.",
-        "de solutions numériques.",
-      ];
+overlay.addEventListener("click", closeSidebar);
 
-      let phraseIndex = 0;
-      let charIndex = 0;
-      let isDeleting = false;
-      let typingSpeed = 100;
+sidebarLinks.forEach((link) => {
+  link.addEventListener("click", closeSidebar);
+});
 
-      const typewriterElement = document.getElementById("typewriter");
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape" && !sidebar.classList.contains("translate-x-full")) {
+    closeSidebar();
+  }
+});
 
-      function type() {
-        const currentPhrase = phrases[phraseIndex];
-
-        if (isDeleting) {
-          typewriterElement.textContent = currentPhrase.substring(
-            0,
-            charIndex - 1
-          );
-          charIndex--;
-          typingSpeed = 50;
-        } else {
-          typewriterElement.textContent = currentPhrase.substring(
-            0,
-            charIndex + 1
-          );
-          charIndex++;
-          typingSpeed = 100;
-        }
-
-        if (!isDeleting && charIndex === currentPhrase.length) {
-          typingSpeed = 2000;
-          isDeleting = true;
-        } else if (isDeleting && charIndex === 0) {
-          isDeleting = false;
-          phraseIndex = (phraseIndex + 1) % phrases.length;
-          typingSpeed = 500;
-        }
-
-        setTimeout(type, typingSpeed);
-      }
-
-      type();
-
-      //Mobile menu toggle
-      const menuBtnMobile = document.getElementById("menuBtnMobile");
-      const sidebar = document.getElementById("sidebar");
-      const overlay = document.getElementById("overlay");
-      const menuIconMobile = document.getElementById("menuIconMobile");
-      const closeIconMobile = document.getElementById("closeIconMobile");
-      const sidebarLinks = sidebar.querySelectorAll("a");
-
-      // Fonction pour ouvrir la sidebar
-      function openSidebar() {
-        sidebar.classList.remove("translate-x-full");
-        overlay.classList.remove("hidden");
-        menuIconMobile.classList.add("hidden");
-        closeIconMobile.classList.remove("hidden");
-        document.body.style.overflow = "hidden";
-      }
-
-      // Fonction pour fermer la sidebar
-      function closeSidebar() {
-        sidebar.classList.add("translate-x-full");
-        overlay.classList.add("hidden");
-        menuIconMobile.classList.remove("hidden");
-        closeIconMobile.classList.add("hidden");
-        document.body.style.overflow = "";
-      }
-
-      // Toggle au clic sur le bouton menu
-      menuBtnMobile.addEventListener("click", () => {
-        if (sidebar.classList.contains("translate-x-full")) {
-          openSidebar();
-        } else {
-          closeSidebar();
-        }
-      });
-
-      // Fermer au clic sur l'overlay
-      overlay.addEventListener("click", closeSidebar);
-
-      // Fermer au clic sur un lien
-      sidebarLinks.forEach((link) => {
-        link.addEventListener("click", closeSidebar);
-      });
-
-      // Fermer avec la touche Escape
-      document.addEventListener("keydown", (e) => {
-        if (
-          e.key === "Escape" &&
-          !sidebar.classList.contains("translate-x-full")
-        ) {
-          closeSidebar();
-        }
-      });
-
-      // Animation Fade In Up au scroll
+// Animation Fade In Up au scroll
 function isElementInViewport(el) {
   const rect = el.getBoundingClientRect();
   return (
-    rect.top <= (window.innerHeight || document.documentElement.clientHeight) * 0.85 &&
+    rect.top <=
+      (window.innerHeight || document.documentElement.clientHeight) * 0.85 &&
     rect.bottom >= 0
   );
 }
 
 function handleScrollAnimation() {
-  const elements = document.querySelectorAll('.fade-in-up');
-  
-  elements.forEach(element => {
+  const elements = document.querySelectorAll(".fade-in-up");
+  elements.forEach((element) => {
     if (isElementInViewport(element)) {
-      element.classList.add('visible');
+      element.classList.add("visible");
     }
   });
 }
 
-// Écouteurs d'événements
-window.addEventListener('scroll', handleScrollAnimation);
-window.addEventListener('load', handleScrollAnimation);
+window.addEventListener("scroll", handleScrollAnimation);
+window.addEventListener("load", handleScrollAnimation);
 
-// Vérification initiale
 handleScrollAnimation();
+
+
+// Formulaire de contact avec EmailJS
+
+  const form = document.getElementById('contact-form');
+  const btnText = document.getElementById('btn-text');
+  const formMessage = document.getElementById('form-message');
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+
+    // État chargement
+    btnText.textContent = 'Envoi en cours...';
+    form.querySelector('button').disabled = true;
+
+    emailjs.sendForm('service_ituwhuk', 'template_oljkgow', form)
+      .then(() => {
+        formMessage.textContent = '✅ Message envoyé avec succès !';
+        formMessage.className = 'mt-4 text-center text-sm text-green-400';
+        formMessage.classList.remove('hidden');
+        form.reset();
+      })
+      .catch((err) => {
+        formMessage.textContent = '❌ Une erreur est survenue. Réessayez.';
+        formMessage.className = 'mt-4 text-center text-sm text-red-400';
+        formMessage.classList.remove('hidden');
+        console.error(err);
+      })
+      .finally(() => {
+        btnText.textContent = 'Prendre rendez-vous';
+        form.querySelector('button').disabled = false;
+      });
+  });

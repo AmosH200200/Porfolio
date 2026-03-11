@@ -7,7 +7,8 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="./public/static/style.css" />
     <link rel="icon" class="rounded-full" type="image/png" href="./public/img/icon.png">
-
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script>emailjs.init("cnMLoFpw8j7DW1Z1V");</script>
   </head>
   <body class="bg-black text-white overflow-x-hidden">
     <!-- Navigation -->
@@ -130,72 +131,66 @@
       </div>
     </div>
 
-    <!-- Hero Section -->
-    <!-- Hero Section -->
-    <section
-      id="home"
-      class="min-h-[120vh] flex items-center justify-center relative pt-20"
-    >
-      <!-- Image de fond -->
-      <div class="absolute inset-0 overflow-hidden">
-        <img
-          src="./public/img/fifa.png"
-          class="absolute inset-0 w-full h-full object-left md:object-center object-cover"
-          alt="Background"
-        />
-        <!-- Overlay pour améliorer la lisibilité -->
-        <div
-          class="absolute inset-0 bg-gradient-to-r from-black/80 via-black/10 to-transparent"
-        ></div>
-      </div>
+<!-- Hero Section -->
+<section
+  id="home"
+  class="min-h-[120vh] flex items-center justify-center relative pt-20 bg-black overflow-hidden"
+>
+  <!-- Effets lumineux de fond -->
+  <div class="absolute inset-0 pointer-events-none">
+    <!-- Halo rose central -->
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-pink-600/20 rounded-full blur-[120px]"></div>
+    <!-- Halo rouge bas gauche -->
+    <div class="absolute bottom-10 left-1/4 w-72 h-72 bg-red-600/15 rounded-full blur-[80px]"></div>
+    <!-- Halo rose haut droite -->
+    <div class="absolute top-10 right-1/4 w-64 h-64 bg-pink-500/10 rounded-full blur-[80px]"></div>
+  </div>
 
-      <!-- Effets décoratifs (optionnels) -->
-      <div class="absolute inset-0 overflow-hidden pointer-events-none">
-        <div
-          class="absolute w-96 h-96 bg-pink-500/10 rounded-full blur-3xl top-20 left-20 animate-float"
-        ></div>
-      </div>
+  <!-- Contenu centré -->
+  <div class="max-w-7xl mx-auto px-6 w-full relative z-10 text-center">
 
-      <!-- Contenu aligné à gauche -->
-      <div class="max-w-7xl mx-auto px-6 w-full relative z-10">
-        <div class="max-w-2xl">
-          <h1 class="text-4xl md:text-7xl font-bold mb-6">
-            <span class="font-extrabold fade-in-up">Amos HOUNDETON</span>
-          </h1>
+    <!-- Nom -->
+    <h1 class="text-5xl md:text-8xl font-extrabold mb-6 fade-in-up">
+      <span class="bg-gradient-to-r from-pink-500 to-red-600 bg-clip-text text-transparent">
+        Amos HOUNDETON
+      </span>
+    </h1>
 
-          <div class="fade-in-up">
-          <p class="text-3xl font-extrabold md:text-3xl text-white mb-8 ">
-            Développeur
-            <span
-              class="typewriter-text text-3xl font-extrabold "
-              id="typewriter"
-            ></span>
-          </p>
-          <!--<p class="text-lg text-white mb-12">
-            Je crée des applications modernes, performantes et élégantes qui
-            transforment vos idées en réalité digitale.
-          </p>
+    <!-- Titre typewriter -->
+    <div class="fade-in-up mb-6">
+      <p class="text-2xl md:text-3xl font-semibold text-gray-300">
+        Développeur
+        <span
+          class="typewriter-text text-2xl md:text-3xl font-extrabold text-white"
+          id="typewriter"
+        ></span>
+      </p>
+    </div>
 
-          -->
-          <div class="flex gap-4 fade-in-up">
-            <a
-              href="#projects"
-              class="bg-gradient-to-r from-pink-500 to-red-600 px-8 py-4 rounded-full font-semibold hover:shadow-lg hover:shadow-pink-500/50 transition glow"
-            >
-              Voir mes projets
-            </a>
+    <!-- Description -->
+    <p class="fade-in-up text-gray-400 text-base md:text-lg max-w-xl mx-auto mb-10 leading-relaxed">
+      Je crée des applications modernes, performantes et élégantes qui
+      transforment vos idées en réalité digitale.
+    </p>
 
-            <a
-              href="#contact"
-              class="border-2 border-pink-500 px-8 py-4 rounded-full font-semibold hover:bg-pink-500/10 transition"
-            >
-              Me contacter
-            </a>
-          </div>
-          </div>
-        </div>
-      </div>
-    </section>
+    <!-- Boutons -->
+    <div class="flex gap-4 justify-center fade-in-up flex-wrap">
+      <a
+        href="#projects"
+        class="bg-gradient-to-r from-pink-500 to-red-600 px-8 py-4 rounded-full font-semibold hover:shadow-lg hover:shadow-pink-500/50 transition glow"
+      >
+        Voir mes projets
+      </a>
+      <a
+        href="#contact"
+        class="border-2 border-pink-500 px-8 py-4 rounded-full font-semibold hover:bg-pink-500/10 transition text-white"
+      >
+        Me contacter
+      </a>
+    </div>
+
+  </div>
+</section>
 
     <!-- About Section -->
     <section id="about" class="py-20 px-6">
@@ -463,8 +458,6 @@
             <div
               class="aspect-[3/4] bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl overflow-hidden relative group"
             >
-              <!-- Zone pour la photo -->
-
               <img
                 src="./public/img/amos.jpeg"
                 alt="Photo professionnelle"
@@ -805,7 +798,6 @@
     </section>
 
     <!-- Contact Section -->
-
     <div
       id="contact"
       class="py-20 px-6 bg-gradient-to-b from-gray-900 to-black"
@@ -900,77 +892,38 @@
 
         <!-- Section droite - Formulaire -->
         <div class="lg:col-span-2 bg-gray-900 rounded-2xl p-8 md:p-12">
-          <form action="https://formsubmit.co/houndetonamos@gmail.com" method="POST">
-
-                <!-- Configuration -->
-    <input type="hidden" name="_subject" value="Nouveau message depuis votre site">
-    <input type="hidden" name="_autoresponse" value="Merci pour votre message ! Nous vous répondrons dans les plus brefs délais.">
-    <input type="hidden" name="_template" value="table">
-    <input type="hidden" name="_captcha" value="true">
-    
-    <!-- Anti-spam honeypot (invisible) -->
-    <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off">
-   
-
+            <form id="contact-form">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-              <input
-                type="text"
-                name="name"
-                placeholder="Votre nom"
-                class="w-full px-6 py-4 bg-gray-800 border border-gray-700 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-red-500 focus:bg-gray-750 transition"
-                required
-              />
-              <input
-                type="tel"name="phone"
-
-                placeholder="Numéro de téléphone"
-                class="w-full px-6 py-4 bg-gray-800 border border-gray-700 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-red-500 focus:bg-gray-750 transition"
-                required
-              />
-              <input
-                type="email"
-                name="email"
-                placeholder="Votre email"
-                class="w-full px-6 py-4 bg-gray-800 border border-gray-700 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-red-500 focus:bg-gray-750 transition"
-                required
-              />
-              <input
-                type="text"
-                name="subject"
-                placeholder="Sujet"
-                class="w-full px-6 py-4 bg-gray-800 border border-gray-700 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-red-500 focus:bg-gray-750 transition"
-                required
-              />
+                <input type="text" name="fname" placeholder="Votre nom"
+                class="w-full px-6 py-4 bg-gray-800 border border-gray-700 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-red-500 transition"
+                required />
+                <input type="tel" name="phone" placeholder="Numéro de téléphone"
+                class="w-full px-6 py-4 bg-gray-800 border border-gray-700 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-red-500 transition"
+                required />
+                <input type="email" name="email" placeholder="Votre email"
+                class="w-full px-6 py-4 bg-gray-800 border border-gray-700 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-red-500 transition"
+                required />
+                <input type="text" name="subject" placeholder="Sujet"
+                class="w-full px-6 py-4 bg-gray-800 border border-gray-700 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-red-500 transition"
+                required />
             </div>
 
-            <textarea
-              placeholder="Votre message"
-              name="message"
-              rows="6"
-              class="w-full px-6 py-4 bg-gray-800 border border-gray-700 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-red-500 focus:bg-gray-750 transition resize-none mb-6"
-              required
-            ></textarea>
+            <textarea placeholder="Votre message" name="message" rows="6"
+                class="w-full px-6 py-4 bg-gray-800 border border-gray-700 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-red-500 transition resize-none mb-6"
+                required></textarea>
 
-            <button
-              type="submit"
-              class="w-full bg-red-500 hover:bg-red-600 text-white font-semibold py-5 px-8 rounded-full transition transform hover:translate-y-[-2px] hover:shadow-2xl flex items-center justify-center gap-3 text-lg"
-            >
-              Prendre rendez-vous
-              <svg
-                class="w-5 h-5"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M5 12h14M12 5l7 7-7 7"
-                />
-              </svg>
+            <button type="submit" id="submit-btn"
+                class="w-full bg-red-500 hover:bg-red-600 text-white font-semibold py-5 px-8 rounded-full transition transform hover:translate-y-[-2px] hover:shadow-2xl flex items-center justify-center gap-3 text-lg">
+                <span id="btn-text">Prendre rendez-vous</span>
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M12 5l7 7-7 7" />
+                </svg>
             </button>
-          </form>
+            </form>
+
+            <!-- Message de feedback -->
+            <p id="form-message" class="mt-4 text-center text-sm hidden"></p>
+
         </div>
       </div>
     </div>
@@ -1009,7 +962,7 @@
     </div>
 
     <!-- Overlay du formulaire -->
-    <div class="form-overlay" id="formOverlay" >
+    <div class="form-overlay" id="formOverlay">
       <div
         class="form-container gradient-border p-4 sm:p-6 md:p-8 max-w-full sm:max-w-lg md:max-w-xl mx-4"
       >
@@ -1027,21 +980,12 @@
           </p>
         </div>
 
-        <form id="contactForm" class="space-y-3 sm:space-y-4" method="POST" action="https://formsubmit.co/houndetonamos@gmail.com">
-
-              <!-- Configuration -->
-    <input type="hidden" name="_subject" value="Nouveau message depuis votre site">
-    <input type="hidden" name="_autoresponse" value="Merci pour votre message ! Nous vous répondrons dans les plus brefs délais.">
-    <input type="hidden" name="_template" value="table">
-    <input type="hidden" name="_captcha" value="true">
-    
-    <!-- Anti-spam honeypot (invisible) -->
-    <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off">
+        <form id="contactForm" class="space-y-3 sm:space-y-4">
           <!-- Nom -->
           <input
             type="text"
-            id="name"
-            name="name"
+            id="fname"
+            name="fname"
             required
             class="input-field w-full px-4 sm:px-5 py-3 sm:py-4 rounded-xl text-sm sm:text-base"
             placeholder="Votre nom complet"
@@ -1076,8 +1020,7 @@
           </button>
         </form>
       </div>
-    </div>
-
+    </div>  
     <!-- Footer -->
     <footer class="py-8 px-6 border-t border-gray-800">
       <div
@@ -1122,8 +1065,6 @@
       </div>
     </footer>
 
-    <script src="./public/static/index.js">
-    
-    </script>
+    <script src="./public/static/index.js"></script>
   </body>
 </html>
